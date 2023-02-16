@@ -8,19 +8,23 @@ scrn.bgcolor('white')
 def moving_object(tank, color):
     """moving_objects is a function that creates the moving objects
     
-    Args:
-        tank (turtle object) : Object name that is going to be created
-        color (string):  color of the moving object
+        Args:
+            tank (turtle object) : Object name that is going to be created
+            color (string):  color of the moving object
     """
-
     tank.fillcolor(color) # to fill the color in ball
     tank.begin_fill() # start color filling
     tank.circle(20)  # draw circle
     tank.end_fill() # end color filling     
     tank.shape('triangle')
 
-
 def draw_triangle(tank,length=30):
+    """draw triangle on top of tank
+    
+        Args:
+            tank (turtle object) : Object name that is going to be created
+            length (int): length of the triangle
+    """
     tank.shape('triangle')
     for i in range(3):
         tank.forward(length)
@@ -114,7 +118,8 @@ tank_two.hideturtle() # hide turtle object
 tank_two.penup() # turtle object in air              
 tank_two.goto(250, 0) # set initial position
 tank_two.pendown()  # move turtle object to surface 
-   
+
+#while loop to keep the objects loaded 
 while True:         
     tank_one.clear()  # clear turtle work
     tank_two.clear() # clear turtle work
@@ -123,8 +128,14 @@ while True:
     moving_object(tank_two, 'blue') #Creating tank two moving object 
     draw_triangle(tank_two)
     scrn.update()  #update screen
-    scrn.listen()
+    scrn.listen() #listen for key presses 
     
+#-------------On button press controlls --------------------------------
+    """scrn.onkey() parameters
+        args: 
+            direcrions controls: points the tank object to right angle
+            "": maps the function to the button press
+    """
     scrn.onkey(tank_one_up, "Up") 
     scrn.onkey(tank_one_down, "Down")
     scrn.onkey(tank_one_left, "Left")
