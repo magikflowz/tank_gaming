@@ -1,7 +1,17 @@
-from turtle import Turtle, Screen, onkey
+#Team Members
+#Anthony Urbina 
+#Github Repository: https://github.com/magikflowz/tank_gaming
+from turtle import Turtle, Screen
+import math
 scrn = Screen()
+scrn.title("Tank Gaming")
 scrn.tracer(0)  #update screen
 scrn.bgcolor('white')
+
+vx = 20.0
+vy = 88.0
+
+
 
 
 #CREATING MOVING OBJECT CONTROLS 
@@ -29,14 +39,33 @@ def draw_triangle(tank,length=30):
     for i in range(3):
         tank.forward(length)
         tank.left(120)
-    
-    
+        
+def get_tank_one_coordinates(object):
+    """get coordinates
+
+      Args:
+           Object (turtle object) : Object
+    """
+    tank_one_x = object.xcor()
+    tank_one_y = object.ycor()
+    return tank_one_x, tank_one_y
+
+def get_tank_two_coordinates(object):
+    """get coordinates
+
+      Args:
+           Object (turtle object) : Object
+    """
+    tank_two_x = object.xcor()
+    tank_two_y = object.ycor()
+    return tank_two_x, tank_two_y
+     
 #direcrions controls 
-#-------TANK ONE CONTROLS-------------
+#-------TANK ONE CONTROLS--------------
 def tank_one_up():
     """tank one up controls
         Args:
-            None
+            xy: y velocity value
     """
     tank_one.setheading(90) 
     tank_one.forward(100)
@@ -119,18 +148,29 @@ tank_two.penup() # turtle object in air
 tank_two.goto(250, 0) # set initial position
 tank_two.pendown()  # move turtle object to surface 
 
+get_tank_one_coordinates(tank_one) #grabs the coordinates of tank one 
+tank_one_coordinates_values = get_tank_one_coordinates(tank_one)
+tank_one_x_value = tank_one_coordinates_values[0]
+tank_one_y_value = tank_one_coordinates_values[1]
+tank_two_coordinates_values = get_tank_two_coordinates(tank_two)
+tank_two_x_value = tank_two_coordinates_values[0]
+tank_two_y_value = tank_two_coordinates_values[1]
+
+tank_one_velocity = math.cos(tank_one_x_value + vx)
+tank_two_velocity = math.cos(tank_two_x_value + vx)
+
 #while loop to keep the objects loaded 
 while True:         
     tank_one.clear()  # clear turtle work
     tank_two.clear() # clear turtle work
     moving_object(tank_one, 'red') #Creating tank one moving object 
-    draw_triangle(tank_one)
+    draw_triangle(tank_one) #creates turrent for tank one drawing
     moving_object(tank_two, 'blue') #Creating tank two moving object 
-    draw_triangle(tank_two)
+    draw_triangle(tank_two) #creates turret  for tank two drawing
     scrn.update()  #update screen
     scrn.listen() #listen for key presses 
     
-#-------------On button press controlls --------------------------------
+#-------------On button press controls ----------------------------------
     """scrn.onkey() parameters
         args: 
             direcrions controls: points the tank object to right angle
@@ -138,8 +178,8 @@ while True:
     """
     scrn.onkey(tank_one_up, "Up") 
     scrn.onkey(tank_one_down, "Down")
-    scrn.onkey(tank_one_left, "Left")
-    scrn.onkey(tank_one_right, "Right")
+    scrn.onkey(tank_one_left*tank_one_velocity, "Left")
+    scrn.onkey(tank_one_right*tank_one_velocity, "Right")
     
     scrn.onkey(tank_two_up, "w") 
     scrn.onkey(tank_two_down, "s")
